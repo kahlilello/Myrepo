@@ -1,0 +1,24 @@
+## Python code for Simple Mail Transfer Protocol (SMTP) through outlook
+## Outlook SenderEmail has to allow POP and IMAP (And therefore SMTP) on Outlook:
+      ## Outlook > Settings > Mail > Sync Email > <Toggle on> POP and IMAP 
+
+from email.message import EmailMessage
+import smtplib
+
+sender = # "SenderEmail"
+password = # "SenderPassword"
+recipient = # "RecipientEmail"
+message = # "Message"
+
+email = EmailMessage()
+email["From"] = sender
+email["To"] = recipient
+email["Subject"] = # "EmailSubject"
+email.set_content(message)
+
+smtp = smtplib.SMTP("smtp-mail.outlook.com", port=587)
+smtp.starttls()
+smtp.set_debuglevel(1)
+smtp.login(sender, password)
+smtp.send_message(email)
+smtp.quit()
