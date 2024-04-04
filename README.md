@@ -1,3 +1,3 @@
 # Myrepo
 
-This repo is code for personal use.
+This repo contains reference code for personal use.
