@@ -1,0 +1,32 @@
+## Python code for Simple Mail Transfer Protocol (SMTP) through outlook
+## Outlook SenderEmail has to allow POP and IMAP (And therefore SMTP) on Outlook:
+      ## Outlook > Settings > Mail > Sync Email > <Toggle on> POP and IMAP 
+# This works for Databricks!!
+
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+# Set up the SMTP server
+smtp_server = 'smtp.office365.com'
+smtp_port = 587
+
+# Sender email credentials
+sender_email = # 'Need email'
+sender_password = # 'Pw'
+
+# Recipient email
+recipient_email = # 'Need Recipient' 
+
+# Create a message with MIMEText
+message = MIMEMultipart()
+message['From'] = sender_email
+message['To'] = recipient_email
+message['Subject'] = 'Test'
+message.attach(MIMEText('Content of the email', 'plain'))
+
+# Connect to Outlook's SMTP server
+with smtplib.SMTP(smtp_server, smtp_port) as server:
+    server.starttls()
+    server.login(sender_email, sender_password)
+    server.sendmail(sender_email, recipient_email, message.as_string())
