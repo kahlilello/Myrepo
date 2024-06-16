@@ -22,6 +22,34 @@ SELECT s.student_id, s.student_name, s.subject_name,
     GROUP BY s.student_id, s.subject_name
     ORDER BY s.student_id, s.subject_name
 
+# 570 Managers with at least 5 direct reports - Medium
+SELECT name FROM
+ (SELECT e1.id, e1.name, COUNT(*) AS cnt
+    FROM Employee e1
+    JOIN Employee e2
+        ON e1.id = e2.managerId
+    GROUP BY e1.id
+ ) AS cnt
+    WHERE cnt >= 5
+
+# 1934 Confirmation Rate - Medium
+SELECT user_id, 
+    ROUND((SUM(confirmation)/COUNT(user_id)),2) AS confirmation_rate
+    FROM 
+    (SELECT s.user_id, c.action, 
+        (CASE 
+            WHEN action = 'confirmed' THEN 1
+            ELSE 0
+            END) AS confirmation    
+        
+        FROM Signups AS s
+        LEFT JOIN Confirmations AS c
+            ON s.user_id = c.user_id
+    ) AS confirms
+    GROUP BY user_id
+
+
+
 
 
 ### Basic Aggregate Functions
@@ -95,6 +123,40 @@ SELECT MAX(num) AS num FROM
     GROUP BY num
     HAVING COUNT(num) = 1) AS singles
 
+### Advanced Selects and Joins
+
+# 1731 The Number of Employees Which Report to Each Employee - Easy
+SELECT m.employee_id, m.name, 
+    COUNT(e.employee_id) AS reports_count,
+    ROUND(AVG(e.age),0) AS average_age
+    FROM Employees AS m
+    JOIN Employees AS e
+        ON m.employee_id = e.reports_to
+    GROUP BY m.employee_id
+    ORDER BY m.employee_id
+
+# 1789 Primary Department for Each Employee - Easy
+WITH cnt AS
+(SELECT employee_id, COUNT(DISTINCT department_id) AS cnt
+    FROM Employee
+    GROUP BY employee_id
+)
+SELECT e.employee_id, e.department_id
+    FROM cnt AS c
+    JOIN Employee AS e 
+        ON e.employee_id = c.employee_id
+    WHERE cnt = 1 OR primary_flag = 'Y'
+
+# 610 Triangle Judgement - Easy
+SELECT *,
+    CASE WHEN
+        x + y > z AND 
+        y + z > x AND
+        z + x > y THEN 'Yes'
+        ELSE 'No'
+    END AS triangle
+    FROM Triangle
+
 
 ### Subqueries 
 
@@ -104,4 +166,7 @@ SELECT employee_id
     WHERE salary < 30000 AND manager_id IS NOT NULL 
         AND manager_id NOT IN (SELECT employee_id FROM Employees)
     ORDER BY employee_id
+
+
+## Ad
 
