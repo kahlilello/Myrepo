@@ -1,6 +1,6 @@
 
 
-# Basic Joins
+### Basic Joins
 
 # 577 Employee Bonus
 SELECT name, bonus 
@@ -21,4 +21,87 @@ SELECT s.student_id, s.student_name, s.subject_name,
             AND s.subject_name = e.subject_name
     GROUP BY s.student_id, s.subject_name
     ORDER BY s.student_id, s.subject_name
+
+
+
+### Basic Aggregate Functions
+
+
+# Not Boring Movies - Easy
+SELECT * FROM Cinema 
+    WHERE id % 2 = 1 AND description != 'boring'
+    ORDER BY rating DESC
+
+# Average Selling Price - Easy
+SELECT p.product_id, COALESCE(ROUND(SUM((u.units * p.price))/SUM(units), 2),0) AS average_price
+    FROM Prices AS p 
+    LEFT JOIN UnitsSold AS u 
+        ON p.product_id = u.product_id
+            AND p.end_date >= u.purchase_date AND u.purchase_date >= p.start_date
+    GROUP BY p.product_id
+
+#Project Employees I - Easy
+SELECT project_id, ROUND(AVG(experience_years),2) AS average_years
+    FROM Project AS p
+    JOIN Employee AS e ON
+        p.employee_id = e.employee_id
+    GROUP BY project_id
+
+# Percentage of Users Attended a Contest - Easy
+SELECT contest_id, 
+    ROUND((COUNT(user_id)/(SELECT COUNT(user_id) FROM Users))*100, 2) AS percentage
+    FROM Register
+    GROUP BY contest_id
+    ORDER BY percentage DESC, contest_id ASC
+
+# Queries Quality and Percentage - Easy
+SELECT query_name, ROUND(AVG((rating/position)),2) AS quality,
+    ROUND((SUM(CASE WHEN rating < 3 THEN 1 
+        ELSE 0 END)/COUNT(query_name))*100 , 2) AS poor_query_percentage
+    FROM Queries 
+    WHERE query_name IS NOT NULL
+    GROUP BY query_name
+
+# Number of Unique Subjects Taught by Each Teacher - Easy
+SELECT teacher_id, COUNT(DISTINCT subject_id) AS cnt
+    FROM Teacher
+    GROUP BY teacher_id
+
+# User Activity in the Past 30 Days I - Easy
+SELECT activity_date AS day, COUNT(DISTINCT user_id) AS active_users
+    FROM Activity 
+    WHERE DATEDIFF("2019-07-27", activity_date) < 30
+        AND DATEDIFF("2019-07-27", activity_date) >= 0
+    GROUP BY activity_date
+
+# Classes more than 5 Students - Easy
+WITH s AS
+    (SELECT class, COUNT(DISTINCT student) AS cnt
+    FROM Courses
+    GROUP BY class) 
+SELECT class FROM s
+    WHERE cnt >= 5
+
+# Find Followers Count - Easy 
+SELECT user_id, COUNT(DISTINCT follower_id) AS followers_count
+    FROM Followers
+    GROUP BY user_id
+    ORDER BY user_id 
+
+# Biggest Single Number - Easy
+SELECT MAX(num) AS num FROM
+    (SELECT num
+    FROM MyNumbers
+    GROUP BY num
+    HAVING COUNT(num) = 1) AS singles
+
+
+### Subqueries 
+
+# Employees Whose Managers Left the Company - Easy
+SELECT employee_id 
+    FROM Employees 
+    WHERE salary < 30000 AND manager_id IS NOT NULL 
+        AND manager_id NOT IN (SELECT employee_id FROM Employees)
+    ORDER BY employee_id
 
