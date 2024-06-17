@@ -168,5 +168,38 @@ SELECT employee_id
     ORDER BY employee_id
 
 
-## Ad
+### Advanced String Functions/REGEX/Clause
 
+# 1667 Fix Names in a Table - Easy
+SELECT user_id, CONCAT(UPPER(LEFT(name, 1)), LOWER(SUBSTRING(name, 2, LENGTH(name)))) AS name
+    FROM Users
+    ORDER BY user_id
+
+# 1527 Patients with a Condition - Easy
+SELECT * 
+    FROM Patients
+    WHERE conditions LIKE '% DIAB1%' OR conditions LIKE 'DIAB1%'
+
+# 196 Delete Duplicate Emails - Easy
+DELETE p1
+    FROM Person AS p1
+    JOIN Person AS p2 
+    ON p1.email = p2.email
+    WHERE p1.id > p2.id
+
+# 1484 Group Products by the Date - Easy
+SELECT sell_date, COUNT(DISTINCT product) AS num_sold,
+    GROUP_CONCAT(DISTINCT product ORDER BY product SEPARATOR ',') AS products
+    FROM Activities
+    GROUP BY sell_date
+
+# 1327 List the Products Ordered in a Period - Easy
+
+SELECT product_name, SUM(unit) AS unit 
+    FROM Products AS p
+    JOIN Orders AS o
+        ON p.product_id = o.product_id
+    WHERE YEAR(o.order_date) = 2020 
+        AND MONTH(o.order_date) = 2 
+    GROUP BY product_name
+    HAVING SUM(unit) >=100
