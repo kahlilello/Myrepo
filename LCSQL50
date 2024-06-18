@@ -2,51 +2,51 @@
 
 ### Basic Joins
 
-# 577 Employee Bonus
-SELECT name, bonus 
-    FROM Employee e 
-    LEFT JOIN Bonus b ON
-        e.empID = b.empID
-    WHERE bonus < 1000 OR bonus IS NULL
-
-# 1280 Students and Examinations - Easy
-SELECT s.student_id, s.student_name, s.subject_name,
-    COUNT(e.subject_name) AS attended_exams
-    FROM 
-        (SELECT  s.student_id, s.student_name, su.subject_name
-        FROM Students AS s
-        CROSS JOIN Subjects AS su) AS s
-    LEFT JOIN Examinations AS e
-        ON s.student_id = e.student_id
-            AND s.subject_name = e.subject_name
-    GROUP BY s.student_id, s.subject_name
-    ORDER BY s.student_id, s.subject_name
-
-# 570 Managers with at least 5 direct reports - Medium
-SELECT name FROM
- (SELECT e1.id, e1.name, COUNT(*) AS cnt
-    FROM Employee e1
-    JOIN Employee e2
-        ON e1.id = e2.managerId
-    GROUP BY e1.id
- ) AS cnt
-    WHERE cnt >= 5
-
-# 1934 Confirmation Rate - Medium
-SELECT user_id, 
-    ROUND((SUM(confirmation)/COUNT(user_id)),2) AS confirmation_rate
-    FROM 
-    (SELECT s.user_id, c.action, 
-        (CASE 
-            WHEN action = 'confirmed' THEN 1
-            ELSE 0
-            END) AS confirmation    
-        
-        FROM Signups AS s
-        LEFT JOIN Confirmations AS c
-            ON s.user_id = c.user_id
-    ) AS confirms
-    GROUP BY user_id
+    # 577 Employee Bonus
+    SELECT name, bonus 
+        FROM Employee e 
+        LEFT JOIN Bonus b ON
+            e.empID = b.empID
+        WHERE bonus < 1000 OR bonus IS NULL
+    
+    # 1280 Students and Examinations - Easy
+    SELECT s.student_id, s.student_name, s.subject_name,
+        COUNT(e.subject_name) AS attended_exams
+        FROM 
+            (SELECT  s.student_id, s.student_name, su.subject_name
+            FROM Students AS s
+            CROSS JOIN Subjects AS su) AS s
+        LEFT JOIN Examinations AS e
+            ON s.student_id = e.student_id
+                AND s.subject_name = e.subject_name
+        GROUP BY s.student_id, s.subject_name
+        ORDER BY s.student_id, s.subject_name
+    
+    # 570 Managers with at least 5 direct reports - Medium
+    SELECT name FROM
+     (SELECT e1.id, e1.name, COUNT(*) AS cnt
+        FROM Employee e1
+        JOIN Employee e2
+            ON e1.id = e2.managerId
+        GROUP BY e1.id
+     ) AS cnt
+        WHERE cnt >= 5
+    
+    # 1934 Confirmation Rate - Medium
+    SELECT user_id, 
+        ROUND((SUM(confirmation)/COUNT(user_id)),2) AS confirmation_rate
+        FROM 
+        (SELECT s.user_id, c.action, 
+            (CASE 
+                WHEN action = 'confirmed' THEN 1
+                ELSE 0
+                END) AS confirmation    
+            
+            FROM Signups AS s
+            LEFT JOIN Confirmations AS c
+                ON s.user_id = c.user_id
+        ) AS confirms
+        GROUP BY user_id
 
 
 
@@ -55,216 +55,264 @@ SELECT user_id,
 ### Basic Aggregate Functions
 
 
-# Not Boring Movies - Easy
-SELECT * FROM Cinema 
-    WHERE id % 2 = 1 AND description != 'boring'
-    ORDER BY rating DESC
-
-# Average Selling Price - Easy
-SELECT p.product_id, COALESCE(ROUND(SUM((u.units * p.price))/SUM(units), 2),0) AS average_price
-    FROM Prices AS p 
-    LEFT JOIN UnitsSold AS u 
-        ON p.product_id = u.product_id
-            AND p.end_date >= u.purchase_date AND u.purchase_date >= p.start_date
-    GROUP BY p.product_id
-
-#Project Employees I - Easy
-SELECT project_id, ROUND(AVG(experience_years),2) AS average_years
-    FROM Project AS p
-    JOIN Employee AS e ON
-        p.employee_id = e.employee_id
-    GROUP BY project_id
-
-# Percentage of Users Attended a Contest - Easy
-SELECT contest_id, 
-    ROUND((COUNT(user_id)/(SELECT COUNT(user_id) FROM Users))*100, 2) AS percentage
-    FROM Register
-    GROUP BY contest_id
-    ORDER BY percentage DESC, contest_id ASC
-
-# Queries Quality and Percentage - Easy
-SELECT query_name, ROUND(AVG((rating/position)),2) AS quality,
-    ROUND((SUM(CASE WHEN rating < 3 THEN 1 
-        ELSE 0 END)/COUNT(query_name))*100 , 2) AS poor_query_percentage
-    FROM Queries 
-    WHERE query_name IS NOT NULL
-    GROUP BY query_name
-
-# Number of Unique Subjects Taught by Each Teacher - Easy
-SELECT teacher_id, COUNT(DISTINCT subject_id) AS cnt
-    FROM Teacher
-    GROUP BY teacher_id
-
-# User Activity in the Past 30 Days I - Easy
-SELECT activity_date AS day, COUNT(DISTINCT user_id) AS active_users
-    FROM Activity 
-    WHERE DATEDIFF("2019-07-27", activity_date) < 30
-        AND DATEDIFF("2019-07-27", activity_date) >= 0
-    GROUP BY activity_date
-
-# Classes more than 5 Students - Easy
-WITH s AS
-    (SELECT class, COUNT(DISTINCT student) AS cnt
-    FROM Courses
-    GROUP BY class) 
-SELECT class FROM s
-    WHERE cnt >= 5
-
-# Find Followers Count - Easy 
-SELECT user_id, COUNT(DISTINCT follower_id) AS followers_count
-    FROM Followers
-    GROUP BY user_id
-    ORDER BY user_id 
-
-# Biggest Single Number - Easy
-SELECT MAX(num) AS num FROM
-    (SELECT num
-    FROM MyNumbers
-    GROUP BY num
-    HAVING COUNT(num) = 1) AS singles
-
-
-# 1193 Monthly Transactions I - Medium
-    SELECT LEFT(trans_date, 7) AS month, country, 
-    COUNT(*) AS trans_count, 
-    SUM(CASE WHEN state = 'approved' THEN 1  
-        ELSE 0 END) AS approved_count,
-    SUM(amount) AS trans_total_amount,
-    SUM(CASE WHEN state = 'approved' THEN amount
-        ELSE 0 END) AS approved_total_amount
-    FROM Transactions
-    GROUP BY month, country
-
-
-
-# 1174 Immediate Food Delivery - Medium
-    WITH first_order AS
-    (SELECT customer_id, MIN(order_date) AS order_date
-        FROM Delivery
-        GROUP BY customer_id
-    ) 
-    SELECT 
-    ROUND((SUM(CASE WHEN d.order_date = d.customer_pref_delivery_date THEN 1
-        ELSE 0 END) 
-    / COUNT(*)) * 100, 2) AS immediate_percentage
-    FROM Delivery AS d
-    JOIN first_order AS f
-        ON d.customer_id = f.customer_id
-            AND d.order_date = f.order_date
-
-# 550 Game Play Analysis IV
-    WITH first AS
-    (
-    SELECT *, MIN(event_date) OVER(PARTITION BY player_id) AS first_event
-        FROM Activity
-    )
-    , consecutives AS
-    (
-    SELECT *,
-        CASE WHEN DATEDIFF(event_date, first_event) = 1 THEN 1
-            ELSE 0 
-            END AS consecutive
-        FROM first
-    )
-    SELECT ROUND(SUM(consecutive)/COUNT( DISTINCT player_id),2) AS fraction
-        FROM consecutives
+    # Not Boring Movies - Easy
+    SELECT * FROM Cinema 
+        WHERE id % 2 = 1 AND description != 'boring'
+        ORDER BY rating DESC
+    
+    # Average Selling Price - Easy
+    SELECT p.product_id, COALESCE(ROUND(SUM((u.units * p.price))/SUM(units), 2),0) AS average_price
+        FROM Prices AS p 
+        LEFT JOIN UnitsSold AS u 
+            ON p.product_id = u.product_id
+                AND p.end_date >= u.purchase_date AND u.purchase_date >= p.start_date
+        GROUP BY p.product_id
+    
+    #Project Employees I - Easy
+    SELECT project_id, ROUND(AVG(experience_years),2) AS average_years
+        FROM Project AS p
+        JOIN Employee AS e ON
+            p.employee_id = e.employee_id
+        GROUP BY project_id
+    
+    # Percentage of Users Attended a Contest - Easy
+    SELECT contest_id, 
+        ROUND((COUNT(user_id)/(SELECT COUNT(user_id) FROM Users))*100, 2) AS percentage
+        FROM Register
+        GROUP BY contest_id
+        ORDER BY percentage DESC, contest_id ASC
+    
+    # Queries Quality and Percentage - Easy
+    SELECT query_name, ROUND(AVG((rating/position)),2) AS quality,
+        ROUND((SUM(CASE WHEN rating < 3 THEN 1 
+            ELSE 0 END)/COUNT(query_name))*100 , 2) AS poor_query_percentage
+        FROM Queries 
+        WHERE query_name IS NOT NULL
+        GROUP BY query_name
+    
+    # Number of Unique Subjects Taught by Each Teacher - Easy
+    SELECT teacher_id, COUNT(DISTINCT subject_id) AS cnt
+        FROM Teacher
+        GROUP BY teacher_id
+    
+    # User Activity in the Past 30 Days I - Easy
+    SELECT activity_date AS day, COUNT(DISTINCT user_id) AS active_users
+        FROM Activity 
+        WHERE DATEDIFF("2019-07-27", activity_date) < 30
+            AND DATEDIFF("2019-07-27", activity_date) >= 0
+        GROUP BY activity_date
+    
+    # Classes more than 5 Students - Easy
+    WITH s AS
+        (SELECT class, COUNT(DISTINCT student) AS cnt
+        FROM Courses
+        GROUP BY class) 
+    SELECT class FROM s
+        WHERE cnt >= 5
+    
+    # Find Followers Count - Easy 
+    SELECT user_id, COUNT(DISTINCT follower_id) AS followers_count
+        FROM Followers
+        GROUP BY user_id
+        ORDER BY user_id 
+    
+    # Biggest Single Number - Easy
+    SELECT MAX(num) AS num FROM
+        (SELECT num
+        FROM MyNumbers
+        GROUP BY num
+        HAVING COUNT(num) = 1) AS singles
+    
+    
+    # 1193 Monthly Transactions I - Medium
+        SELECT LEFT(trans_date, 7) AS month, country, 
+        COUNT(*) AS trans_count, 
+        SUM(CASE WHEN state = 'approved' THEN 1  
+            ELSE 0 END) AS approved_count,
+        SUM(amount) AS trans_total_amount,
+        SUM(CASE WHEN state = 'approved' THEN amount
+            ELSE 0 END) AS approved_total_amount
+        FROM Transactions
+        GROUP BY month, country
+    
+    
+    
+    # 1174 Immediate Food Delivery - Medium
+        WITH first_order AS
+        (SELECT customer_id, MIN(order_date) AS order_date
+            FROM Delivery
+            GROUP BY customer_id
+        ) 
+        SELECT 
+        ROUND((SUM(CASE WHEN d.order_date = d.customer_pref_delivery_date THEN 1
+            ELSE 0 END) 
+        / COUNT(*)) * 100, 2) AS immediate_percentage
+        FROM Delivery AS d
+        JOIN first_order AS f
+            ON d.customer_id = f.customer_id
+                AND d.order_date = f.order_date
+    
+    # 550 Game Play Analysis IV
+        WITH first AS
+        (
+        SELECT *, MIN(event_date) OVER(PARTITION BY player_id) AS first_event
+            FROM Activity
+        )
+        , consecutives AS
+        (
+        SELECT *,
+            CASE WHEN DATEDIFF(event_date, first_event) = 1 THEN 1
+                ELSE 0 
+                END AS consecutive
+            FROM first
+        )
+        SELECT ROUND(SUM(consecutive)/COUNT( DISTINCT player_id),2) AS fraction
+            FROM consecutives
 
 
 ### Sorting and Group
 
-# 1045 Customers Who Bought All products - Medium
-    SELECT customer_id
-    FROM Customer
-    GROUP BY customer_id
-    HAVING COUNT(DISTINCT product_key) = 
-    (SELECT COUNT(DISTINCT product_key) 
-    FROM Product)
+    # 1045 Customers Who Bought All products - Medium
+        SELECT customer_id
+        FROM Customer
+        GROUP BY customer_id
+        HAVING COUNT(DISTINCT product_key) = 
+        (SELECT COUNT(DISTINCT product_key) 
+        FROM Product)
+
+    # 1070 Product Sales Analysis III - Medium
+        SELECT product_id, year AS first_year,
+        quantity, price
+        FROM Sales
+        WHERE (product_id, year) IN
+        (SELECT product_id, MIN(year)
+            FROM Sales 
+            GROUP BY product_id)
 
 
 ### Advanced Selects and Joins
 
-# 1731 The Number of Employees Which Report to Each Employee - Easy
-SELECT m.employee_id, m.name, 
-    COUNT(e.employee_id) AS reports_count,
-    ROUND(AVG(e.age),0) AS average_age
-    FROM Employees AS m
-    JOIN Employees AS e
-        ON m.employee_id = e.reports_to
-    GROUP BY m.employee_id
-    ORDER BY m.employee_id
+    # 1731 The Number of Employees Which Report to Each Employee - Easy
+    SELECT m.employee_id, m.name, 
+        COUNT(e.employee_id) AS reports_count,
+        ROUND(AVG(e.age),0) AS average_age
+        FROM Employees AS m
+        JOIN Employees AS e
+            ON m.employee_id = e.reports_to
+        GROUP BY m.employee_id
+        ORDER BY m.employee_id
+    
+    # 1789 Primary Department for Each Employee - Easy
+    WITH cnt AS
+    (SELECT employee_id, COUNT(DISTINCT department_id) AS cnt
+        FROM Employee
+        GROUP BY employee_id
+    )
+    SELECT e.employee_id, e.department_id
+        FROM cnt AS c
+        JOIN Employee AS e 
+            ON e.employee_id = c.employee_id
+        WHERE cnt = 1 OR primary_flag = 'Y'
+    
+    # 610 Triangle Judgement - Easy
+    SELECT *,
+        CASE WHEN
+            x + y > z AND 
+            y + z > x AND
+            z + x > y THEN 'Yes'
+            ELSE 'No'
+        END AS triangle
+        FROM Triangle
 
-# 1789 Primary Department for Each Employee - Easy
-WITH cnt AS
-(SELECT employee_id, COUNT(DISTINCT department_id) AS cnt
-    FROM Employee
-    GROUP BY employee_id
-)
-SELECT e.employee_id, e.department_id
-    FROM cnt AS c
-    JOIN Employee AS e 
-        ON e.employee_id = c.employee_id
-    WHERE cnt = 1 OR primary_flag = 'Y'
-
-# 610 Triangle Judgement - Easy
-SELECT *,
-    CASE WHEN
-        x + y > z AND 
-        y + z > x AND
-        z + x > y THEN 'Yes'
-        ELSE 'No'
-    END AS triangle
-    FROM Triangle
-
-
+    # 180 Consecutive Numbers - Medium
+        SELECT DISTINCT l1.num AS ConsecutiveNums
+            FROM Logs AS l1
+            JOIN Logs AS l2
+                ON l1.num = l2.num
+                    AND l1.id = l2.id - 1
+            JOIN Logs AS l3
+                ON l2.num = l3.num
+                    AND l2.id = l3.id - 1
+    
 ### Subqueries 
-
-# Employees Whose Managers Left the Company - Easy
-SELECT employee_id 
-    FROM Employees 
-    WHERE salary < 30000 AND manager_id IS NOT NULL 
-        AND manager_id NOT IN (SELECT employee_id FROM Employees)
-    ORDER BY employee_id
-
-
+    
+    # Employees Whose Managers Left the Company - Easy
+    SELECT employee_id 
+        FROM Employees 
+        WHERE salary < 30000 AND manager_id IS NOT NULL 
+            AND manager_id NOT IN (SELECT employee_id FROM Employees)
+        ORDER BY employee_id
+    
+    
 ### Advanced String Functions/REGEX/Clause
-
-# 1667 Fix Names in a Table - Easy
-SELECT user_id, CONCAT(UPPER(LEFT(name, 1)), LOWER(SUBSTRING(name, 2, LENGTH(name)))) AS name
-    FROM Users
-    ORDER BY user_id
-
-# 1527 Patients with a Condition - Easy
-SELECT * 
-    FROM Patients
-    WHERE conditions LIKE '% DIAB1%' OR conditions LIKE 'DIAB1%'
-
-# 196 Delete Duplicate Emails - Easy
-DELETE p1
-    FROM Person AS p1
-    JOIN Person AS p2 
-    ON p1.email = p2.email
-    WHERE p1.id > p2.id
-
-# 1484 Group Products by the Date - Easy
-SELECT sell_date, COUNT(DISTINCT product) AS num_sold,
-    GROUP_CONCAT(DISTINCT product ORDER BY product SEPARATOR ',') AS products
-    FROM Activities
-    GROUP BY sell_date
-
-# 1327 List the Products Ordered in a Period - Easy
-
-SELECT product_name, SUM(unit) AS unit 
-    FROM Products AS p
-    JOIN Orders AS o
-        ON p.product_id = o.product_id
-    WHERE YEAR(o.order_date) = 2020 
-        AND MONTH(o.order_date) = 2 
-    GROUP BY product_name
-    HAVING SUM(unit) >=100
-
-# 1517 Find users With Valid Emails - Easy
+    
+    # 1667 Fix Names in a Table - Easy
+    SELECT user_id, CONCAT(UPPER(LEFT(name, 1)), LOWER(SUBSTRING(name, 2, LENGTH(name)))) AS name
+        FROM Users
+        ORDER BY user_id
+    
+    # 1527 Patients with a Condition - Easy
     SELECT * 
-    FROM Users
-    WHERE mail REGEXP '^[A-Za-z][A-Za-z0-9_\.\-]*@leetcode(\\?com)?\\.com$'
+        FROM Patients
+        WHERE conditions LIKE '% DIAB1%' OR conditions LIKE 'DIAB1%'
+    
+    # 196 Delete Duplicate Emails - Easy
+    DELETE p1
+        FROM Person AS p1
+        JOIN Person AS p2 
+        ON p1.email = p2.email
+        WHERE p1.id > p2.id
+    
+    # 1484 Group Products by the Date - Easy
+    SELECT sell_date, COUNT(DISTINCT product) AS num_sold,
+        GROUP_CONCAT(DISTINCT product ORDER BY product SEPARATOR ',') AS products
+        FROM Activities
+        GROUP BY sell_date
+    
+    # 1327 List the Products Ordered in a Period - Easy
+    
+    SELECT product_name, SUM(unit) AS unit 
+        FROM Products AS p
+        JOIN Orders AS o
+            ON p.product_id = o.product_id
+        WHERE YEAR(o.order_date) = 2020 
+            AND MONTH(o.order_date) = 2 
+        GROUP BY product_name
+        HAVING SUM(unit) >=100
+    
+    # 1517 Find users With Valid Emails - Easy
+        SELECT * 
+        FROM Users
+        WHERE mail REGEXP '^[A-Za-z][A-Za-z0-9_\.\-]*@leetcode(\\?com)?\\.com$'
+
+    # 1164 Product Price at a Given Date
+        WITH dates AS
+            (
+                SELECT product_id, 
+                MAX(
+                    CASE 
+                        WHEN change_date <= '2019-08-16'
+                            THEN change_date
+                        ELSE null
+                    END) as date
+                FROM Products 
+                GROUP BY product_id
+            )
+            , dated_product AS
+            (
+            SELECT p.product_id,
+                new_price AS price,
+                d.product_id AS dates_product,
+                d.date
+                FROM Products AS p
+                JOIN dates AS d
+                    ON p.product_id = d.product_id
+                    AND p.change_date = d.date
+            )
+            SELECT DISTINCT p.product_id,
+                COALESCE(d.price, 10) AS price
+                FROM Products AS p
+                LEFT JOIN dated_product AS d
+                    ON p.product_id = d.product_id
 
 
