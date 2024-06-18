@@ -123,6 +123,64 @@ SELECT MAX(num) AS num FROM
     GROUP BY num
     HAVING COUNT(num) = 1) AS singles
 
+
+# 1193 Monthly Transactions I - Medium
+    SELECT LEFT(trans_date, 7) AS month, country, 
+    COUNT(*) AS trans_count, 
+    SUM(CASE WHEN state = 'approved' THEN 1  
+        ELSE 0 END) AS approved_count,
+    SUM(amount) AS trans_total_amount,
+    SUM(CASE WHEN state = 'approved' THEN amount
+        ELSE 0 END) AS approved_total_amount
+    FROM Transactions
+    GROUP BY month, country
+
+
+
+# 1174 Immediate Food Delivery - Medium
+    WITH first_order AS
+    (SELECT customer_id, MIN(order_date) AS order_date
+        FROM Delivery
+        GROUP BY customer_id
+    ) 
+    SELECT 
+    ROUND((SUM(CASE WHEN d.order_date = d.customer_pref_delivery_date THEN 1
+        ELSE 0 END) 
+    / COUNT(*)) * 100, 2) AS immediate_percentage
+    FROM Delivery AS d
+    JOIN first_order AS f
+        ON d.customer_id = f.customer_id
+            AND d.order_date = f.order_date
+
+# 550 Game Play Analysis IV
+    WITH first AS
+    (
+    SELECT *, MIN(event_date) OVER(PARTITION BY player_id) AS first_event
+        FROM Activity
+    )
+    , consecutives AS
+    (
+    SELECT *,
+        CASE WHEN DATEDIFF(event_date, first_event) = 1 THEN 1
+            ELSE 0 
+            END AS consecutive
+        FROM first
+    )
+    SELECT ROUND(SUM(consecutive)/COUNT( DISTINCT player_id),2) AS fraction
+        FROM consecutives
+
+
+### Sorting and Group
+
+# 1045 Customers Who Bought All products - Medium
+    SELECT customer_id
+    FROM Customer
+    GROUP BY customer_id
+    HAVING COUNT(DISTINCT product_key) = 
+    (SELECT COUNT(DISTINCT product_key) 
+    FROM Product)
+
+
 ### Advanced Selects and Joins
 
 # 1731 The Number of Employees Which Report to Each Employee - Easy
@@ -203,3 +261,10 @@ SELECT product_name, SUM(unit) AS unit
         AND MONTH(o.order_date) = 2 
     GROUP BY product_name
     HAVING SUM(unit) >=100
+
+# 1517 Find users With Valid Emails - Easy
+    SELECT * 
+    FROM Users
+    WHERE mail REGEXP '^[A-Za-z][A-Za-z0-9_\.\-]*@leetcode(\\?com)?\\.com$'
+
+
