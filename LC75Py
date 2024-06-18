@@ -1,38 +1,54 @@
 
 ### Array/String
 
-# 345 Reverse Vowels of a String - Easy
-        vowels = 'aeiouAEIOU'
-        sList = list(s)
-        left, right = 0, len(s) - 1
-        while left < right:
-            while left < right and sList[left] not in vowels:
-                left += 1
-            while left < right and sList[right] not in vowels:
-                right -= 1
-            if left < right:
-                sList[left], sList[right] = sList[right], sList[left]
-                left += 1
-                right -= 1
-        return ''.join(sList)
+        # 345 Reverse Vowels of a String - Easy
+                vowels = 'aeiouAEIOU'
+                sList = list(s)
+                left, right = 0, len(s) - 1
+                while left < right:
+                    while left < right and sList[left] not in vowels:
+                        left += 1
+                    while left < right and sList[right] not in vowels:
+                        right -= 1
+                    if left < right:
+                        sList[left], sList[right] = sList[right], sList[left]
+                        left += 1
+                        right -= 1
+                return ''.join(sList)
 
 
 
 
 ### Two Pointers 
 
-# Move Zeroes
-        j = 0
-
-        for i in range(len(nums)):
-            if nums[i] != 0:
-                nums[i], nums[j] = nums[j], nums[i]
-                j += 1
-# 392 Reverse Subsequence of a String - Easy
-        j = 0
-        for i in range(len(t)):
-            if j != len(s):
-                if t[i] == s[j]:
-                    j += 1
+        # Move Zeroes
+                j = 0
         
-        return j == len(s) 
+                for i in range(len(nums)):
+                    if nums[i] != 0:
+                        nums[i], nums[j] = nums[j], nums[i]
+                        j += 1
+        # 392 Reverse Subsequence of a String - Easy
+                j = 0
+                for i in range(len(t)):
+                    if j != len(s):
+                        if t[i] == s[j]:
+                            j += 1
+                
+                return j == len(s) 
+
+
+
+### Prefix Sum
+        # 1732 Find the Highest Altitude - Easy
+                def largestAltitude(self, gain: List[int]) -> int:
+                        high = 0
+                        current = 0
+                        for i in gain:
+                            current += i
+                            if current > high:
+                                high = current                        
+                        return high
+
+
+
