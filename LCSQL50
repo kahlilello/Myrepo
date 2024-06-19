@@ -315,4 +315,23 @@
                 LEFT JOIN dated_product AS d
                     ON p.product_id = d.product_id
 
+    # 1204 Last Person to Fit in the Bus
+        WITH checking AS
+            (
+            SELECT *,
+                SUM(weight) OVER(ORDER BY turn) AS total_weight,
+                CASE WHEN SUM(weight) OVER(ORDER BY turn) <= 1000 THEN 'yes'
+                    ELSE 'no'
+                    END AS good
+                FROM Queue
+                ORDER BY turn
+            )
+            SELECT person_name
+                FROM checking
+                WHERE good = 'yes'
+                    AND turn IN 
+                        (SELECT MAX(turn)
+                        FROM checking
+                        WHERE good = 'yes')
+
 
