@@ -37,18 +37,36 @@
                 
                 return j == len(s) 
 
+### Sliding window
+
+        # Maximum Average Salary I - Easy
+        def findMaxAverage(self, nums: List[int], k: int) -> float:
+                maxavg = float('-inf') 
+                windowsum = 0
+                i, j = 0, 0
+        
+                while j < len(nums):
+                    windowsum += nums[j]
+                    if j - i + 1 == k:
+                        maxavg = max(maxavg, windowsum/k)
+                        windowsum -= nums[i]
+                        i += 1
+                    j += 1     
+                
+                return maxavg
+
 
 
 ### Prefix Sum
         # 1732 Find the Highest Altitude - Easy
-                def largestAltitude(self, gain: List[int]) -> int:
-                        high = 0
-                        current = 0
-                        for i in gain:
-                            current += i
-                            if current > high:
-                                high = current                        
-                        return high
+        def largestAltitude(self, gain: List[int]) -> int:
+                high = 0
+                current = 0
+                for i in gain:
+                    current += i
+                    if current > high:
+                        high = current                        
+                return high
 
 
 
