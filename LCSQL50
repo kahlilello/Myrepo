@@ -233,6 +233,37 @@
             JOIN Logs AS l3
                 ON l2.num = l3.num
                     AND l2.id = l3.id - 1
+
+    # 1907 Count Salary Categories
+        WITH categories AS
+        (
+        SELECT 'Low Salary' AS category
+        UNION
+        SELECT 'Average Salary' AS category
+        UNION 
+        SELECT 'High Salary' AS category
+        )
+        , AccountsCat AS
+        (
+        SELECT *,
+            CASE 
+                WHEN income < 20000 THEN 'Low Salary'
+                WHEN income > 50000 THEN 'High Salary'
+                ELSE 'Average Salary'
+            END AS categorized
+            FROM Accounts
+        )
+        , totalCat AS
+        (
+        SELECT * 
+            FROM AccountsCat AS a
+            RIGHT JOIN categories AS c
+                ON a.categorized = c.category
+        )
+        SELECT category, 
+            COALESCE(COUNT(categorized),0) AS accounts_count
+            FROM totalCat
+            GROUP BY category
     
 ### Subqueries 
     
