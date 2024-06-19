@@ -234,7 +234,7 @@
                 ON l2.num = l3.num
                     AND l2.id = l3.id - 1
 
-    # 1907 Count Salary Categories
+    # 1907 Count Salary Categories - Medium
         WITH categories AS
         (
         SELECT 'Low Salary' AS category
@@ -273,6 +273,19 @@
         WHERE salary < 30000 AND manager_id IS NOT NULL 
             AND manager_id NOT IN (SELECT employee_id FROM Employees)
         ORDER BY employee_id
+    # 626 Exchange Seats - Medium
+    SELECT 
+    CASE 
+        WHEN id = (SELECT MAX(id) FROM Seat) AND id%2 = 1
+            THEN id
+        WHEN id%2 = 1
+            THEN id + 1
+        WHEN id%2 = 0
+            THEN id - 1
+        END AS id,
+    student
+    FROM Seat
+    ORDER BY id
     
     
 ### Advanced String Functions/REGEX/Clause
