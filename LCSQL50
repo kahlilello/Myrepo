@@ -273,6 +273,7 @@
         WHERE salary < 30000 AND manager_id IS NOT NULL 
             AND manager_id NOT IN (SELECT employee_id FROM Employees)
         ORDER BY employee_id
+    
     # 626 Exchange Seats - Medium
     SELECT 
     CASE 
@@ -286,7 +287,30 @@
     student
     FROM Seat
     ORDER BY id
-    
+
+
+    # 1341 Movie Rating - Medium
+    (
+    SELECT name AS results
+        FROM MovieRating AS m
+        JOIN Users AS u
+            ON m.user_id = u.user_id
+        GROUP BY m.user_id
+        ORDER BY COUNT(m.user_id) DESC, name
+        LIMIT 1
+    )
+    UNION ALL
+    (
+    SELECT title AS results
+        FROM MovieRating AS r
+        JOIN Movies AS m
+            ON r.movie_id = m.movie_id
+        WHERE MONTH(created_at) = '02'
+            AND YEAR(created_at) = '2020' 
+        GROUP BY r.movie_id
+        ORDER BY AVG(rating) DESC, title
+        LIMIT 1
+    )
     
 ### Advanced String Functions/REGEX/Clause
     
