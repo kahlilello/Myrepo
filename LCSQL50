@@ -311,7 +311,39 @@
         ORDER BY AVG(rating) DESC, title
         LIMIT 1
     )
-    
+
+    # Friend Requests II: Who has the most Friends - Medium
+    WITH ids AS
+    (
+    SELECT DISTINCT requester_id AS id
+        FROM RequestAccepted
+    UNION 
+    SELECT DISTINCT accepter_id
+        FROM RequestAccepted
+    )
+    , requests AS
+    (
+    SELECT requester_id AS id, COUNT(accept_date) AS requests
+        FROM RequestAccepted
+        GROUP BY requester_id
+    )
+    , accepts AS
+    (
+    SELECT accepter_id AS id, COUNT(accept_date) AS accepts
+        FROM RequestAccepted
+        GROUP BY accepter_id
+    )
+    SELECT i.id, (COALESCE(requests, 0) + COALESCE(accepts, 0)) AS num
+        FROM ids AS i
+            LEFT JOIN requests AS r
+                ON i.id = r.id
+            LEFT JOIN accepts AS a
+                ON i.id = a.id
+        ORDER BY num DESC
+        LIMIT 1
+
+
+
 ### Advanced String Functions/REGEX/Clause
     
     # 1667 Fix Names in a Table - Easy
