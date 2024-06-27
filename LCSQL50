@@ -449,4 +449,21 @@
                         FROM checking
                         WHERE good = 'yes')
 
+    # 176 Second Highest Salary - Medium
+    WITH two AS
+        (
+        SELECT 2 AS ranking
+        )
+        , ranked AS
+        (
+        SELECT *,
+            dense_rank() OVER(ORDER BY salary DESC)
+            AS ranking
+            FROM Employee 
+        )
+        SELECT DISTINCT e.salary AS SecondHighestSalary
+            FROM ranked AS e
+            RIGHT JOIN two AS t
+                ON e.ranking = t.ranking
+
 
