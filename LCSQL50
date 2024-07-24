@@ -13,7 +13,7 @@
             WHERE referee_id IS NULL 
                 OR referee_id != 2;
 
-    # 595 Big Countries
+    # 595 Big Countries - Easy
         SELECT name, population, area
             FROM World
             WHERE area >= 3000000
