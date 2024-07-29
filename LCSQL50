@@ -26,6 +26,9 @@
             ORDER BY author_id
 
     # 1683 Invalid Tweets - Easy
+        SELECT tweet_id
+            FROM Tweets
+            WHERE LENGTH(content)>15
 
 
 ### Basic Joins
