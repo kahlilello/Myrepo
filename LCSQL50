@@ -25,7 +25,7 @@
             WHERE author_id = viewer_id
             ORDER BY author_id
 
-    # 1683 Invalid Tweets 
+    # 1683 Invalid Tweets - Easy
 
 
 ### Basic Joins
