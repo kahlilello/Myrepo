@@ -33,6 +33,13 @@
 
 ### Basic Joins
 
+    # 1378 Replace Employee ID with Unique Identifier
+        SELECT unique_id, name
+            FROM EmployeeUNI
+            RIGHT JOIN Employees
+            USING(id)
+
+
     # 577 Employee Bonus
     SELECT name, bonus 
         FROM Employee e 
