@@ -33,7 +33,7 @@
 
 ### Basic Joins
 
-    # 1378 Replace Employee ID with Unique Identifier
+    # 1378 Replace Employee ID with Unique Identifier - Easy
         SELECT unique_id, name
             FROM EmployeeUNI
             RIGHT JOIN Employees
