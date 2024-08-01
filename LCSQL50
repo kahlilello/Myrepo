@@ -39,6 +39,8 @@
             RIGHT JOIN Employees
             USING(id)
 
+    # 1068 Product Sales Analysis I - Easy
+
 
     # 577 Employee Bonus
     SELECT name, bonus 
