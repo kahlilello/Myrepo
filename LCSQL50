@@ -45,10 +45,10 @@
             JOIN Product AS p
             USING(product_id)
 
-    # 1581 Customers Who Visited but Did Not Make Any Transactions 
+    # 1581 Customers Who Visited but Did Not Make Any Transactions - Easy
 
 
-    # 577 Employee Bonus
+    # 577 Employee Bonus - Easy
     SELECT name, bonus 
         FROM Employee e 
         LEFT JOIN Bonus b ON
