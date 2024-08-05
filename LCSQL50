@@ -46,7 +46,16 @@
             USING(product_id)
 
     # 1581 Customers Who Visited but Did Not Make Any Transactions - Easy
-
+        SELECT customer_id, COUNT(customer_id) AS count_no_trans
+            FROM
+            (
+            SELECT *
+            FROM Visits AS v
+            LEFT JOIN Transactions AS t
+                USING(visit_id) 
+            ) AS total 
+            WHERE transaction_id IS NULL
+            GROUP BY customer_id
 
     # 577 Employee Bonus - Easy
     SELECT name, bonus 
