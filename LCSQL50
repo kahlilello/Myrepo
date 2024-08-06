@@ -57,6 +57,8 @@
             WHERE transaction_id IS NULL
             GROUP BY customer_id
 
+    # 197 Rising Temperature - Easy
+
     # 577 Employee Bonus - Easy
     SELECT name, bonus 
         FROM Employee e 
