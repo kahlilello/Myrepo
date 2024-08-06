@@ -58,6 +58,11 @@
             GROUP BY customer_id
 
     # 197 Rising Temperature - Easy
+    SELECT today.id
+        FROM Weather today
+        JOIN Weather yesterday 
+            ON DATEDIFF(today.recordDate, yesterday.recordDate) = 1
+        WHERE today.temperature > yesterday.temperature
 
     # 577 Employee Bonus - Easy
     SELECT name, bonus 
