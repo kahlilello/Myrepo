@@ -64,6 +64,9 @@
             ON DATEDIFF(today.recordDate, yesterday.recordDate) = 1
         WHERE today.temperature > yesterday.temperature
 
+    # 1661 Average Time of Process per Machine
+
+
     # 577 Employee Bonus - Easy
     SELECT name, bonus 
         FROM Employee e 
