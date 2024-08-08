@@ -75,7 +75,6 @@
                 AND a2.activity_type = 'end'
         GROUP BY a1.machine_id
 
-
     # 577 Employee Bonus - Easy
     SELECT name, bonus 
         FROM Employee e 
