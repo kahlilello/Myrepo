@@ -118,8 +118,21 @@
      ) AS cnt
         WHERE cnt >= 5
 
-        # 570 Managers with at least 5 direct reports - Medium 2
-        
+
+                # 570 Managers with at least 5 direct reports - Medium 2
+                    SELECT name
+                        FROM Employee
+                        WHERE id IN
+                        (
+                            SELECT managerID
+                            FROM
+                            (SELECT managerID, COUNT(managerID)
+                            FROM Employee
+                            GROUP BY managerID
+                            HAVING COUNT(managerID) >= 5
+                            ) AS managers
+                        )
+                                
     
     # 1934 Confirmation Rate - Medium
     SELECT user_id, 
