@@ -117,6 +117,9 @@
         GROUP BY e1.id
      ) AS cnt
         WHERE cnt >= 5
+
+        # 570 Managers with at least 5 direct reports - Medium 2
+        
     
     # 1934 Confirmation Rate - Medium
     SELECT user_id, 
