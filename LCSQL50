@@ -150,7 +150,8 @@
         ) AS confirms
         GROUP BY user_id
 
-
+                    # 1934 Confirmation Rate - Easy 2
+        
 
 
 
