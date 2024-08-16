@@ -167,10 +167,17 @@
 ### Basic Aggregate Functions
 
 
-    # Not Boring Movies - Easy
+    # 620 Not Boring Movies - Easy
     SELECT * FROM Cinema 
         WHERE id % 2 = 1 AND description != 'boring'
         ORDER BY rating DESC
+
+            # 620 Not Boring Movies - Easy 2 
+            SELECT * 
+                FROM Cinema
+                WHERE LOWER(description) != 'boring'
+                    AND id % 2 = 1
+                ORDER BY rating DESC
     
     # Average Selling Price - Easy
     SELECT p.product_id, COALESCE(ROUND(SUM((u.units * p.price))/SUM(units), 2),0) AS average_price
