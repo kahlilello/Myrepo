@@ -196,12 +196,19 @@
                         AND (u.purchase_date BETWEEN p.start_date AND p.end_date)
                 GROUP BY p.product_id
   
-    #Project Employees I - Easy
+    # 1075 Project Employees I - Easy
     SELECT project_id, ROUND(AVG(experience_years),2) AS average_years
         FROM Project AS p
         JOIN Employee AS e ON
             p.employee_id = e.employee_id
         GROUP BY project_id
+
+            # 1075 Project Employees I - Easy II
+            SELECT project_id, ROUND(AVG(experience_years), 2) AS average_years
+                FROM Project AS p
+                JOIN Employee AS e
+                    USING(employee_id)
+                GROUP BY project_id
     
     # Percentage of Users Attended a Contest - Easy
     SELECT contest_id, 
