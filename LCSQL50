@@ -210,7 +210,7 @@
                     USING(employee_id)
                 GROUP BY project_id
     
-    # Percentage of Users Attended a Contest - Easy
+    # 1633 Percentage of Users Attended a Contest - Easy
     SELECT contest_id, 
         ROUND((COUNT(user_id)/(SELECT COUNT(user_id) FROM Users))*100, 2) AS percentage
         FROM Register
