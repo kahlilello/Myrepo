@@ -216,6 +216,17 @@
         FROM Register
         GROUP BY contest_id
         ORDER BY percentage DESC, contest_id ASC
+
+            # 1633 Percentage of Users Attended a Contest - Easy
+            SELECT r.contest_id, 
+                ROUND((COUNT(DISTINCT u.user_id)*100) / (SELECT COUNT(DISTINCT user_id) FROM Users), 2) AS percentage
+                FROM Register AS r
+                JOIN Users AS u 
+                    USING(user_id)
+                GROUP BY contest_id
+                ORDER BY percentage DESC
+                    , r.contest_id ASC
+
     
     # Queries Quality and Percentage - Easy
     SELECT query_name, ROUND(AVG((rating/position)),2) AS quality,
