@@ -236,7 +236,7 @@
         WHERE query_name IS NOT NULL
         GROUP BY query_name
 
-            # 1211 Queries Quality and Percentage - Easy
+            # 1211 Queries Quality and Percentage - Easy II
     
     # Number of Unique Subjects Taught by Each Teacher - Easy
     SELECT teacher_id, COUNT(DISTINCT subject_id) AS cnt
