@@ -228,13 +228,15 @@
                     , r.contest_id ASC
 
     
-    # Queries Quality and Percentage - Easy
+    # 1211 Queries Quality and Percentage - Easy
     SELECT query_name, ROUND(AVG((rating/position)),2) AS quality,
         ROUND((SUM(CASE WHEN rating < 3 THEN 1 
             ELSE 0 END)/COUNT(query_name))*100 , 2) AS poor_query_percentage
         FROM Queries 
         WHERE query_name IS NOT NULL
         GROUP BY query_name
+
+            # 1211 Queries Quality and Percentage - Easy
     
     # Number of Unique Subjects Taught by Each Teacher - Easy
     SELECT teacher_id, COUNT(DISTINCT subject_id) AS cnt
