@@ -295,6 +295,8 @@
             ELSE 0 END) AS approved_total_amount
         FROM Transactions
         GROUP BY month, country
+
+                # 1193 Monthly Transactions I - Medium
     
     
     
