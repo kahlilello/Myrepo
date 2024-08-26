@@ -335,6 +335,8 @@
         JOIN first_order AS f
             ON d.customer_id = f.customer_id
                 AND d.order_date = f.order_date
+
+                # 1174 Immediate Food Delivery - Medium (31%)
     
     # 550 Game Play Analysis IV
         WITH first AS
