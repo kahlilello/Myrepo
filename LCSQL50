@@ -361,7 +361,7 @@
                                     FROM Delivery
                                     GROUP BY customer_id)
     
-    # 550 Game Play Analysis IV
+    # 550 Game Play Analysis IV - Medium
         WITH first AS
         (
         SELECT *, MIN(event_date) OVER(PARTITION BY player_id) AS first_event
