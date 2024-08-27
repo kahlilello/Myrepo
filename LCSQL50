@@ -378,7 +378,17 @@
         SELECT ROUND(SUM(consecutive)/COUNT( DISTINCT player_id),2) AS fraction
             FROM consecutives
 
-                    # 550 Game Play Analysis IV - Medium
+                    # 550 Game Play Analysis IV - Medium (92%)
+                    
+                    WITH Parted AS (
+                            SELECT player_id, event_date,
+                                MIN(event_date) OVER(PARTITION BY player_id) AS earliest
+                            FROM Activity 
+                        )
+                        SELECT 
+                            ROUND(CAST(SUM(CASE WHEN event_date = earliest + INTERVAL '1' DAY THEN 1 ELSE 0 END) AS FLOAT) 
+                                / COUNT(DISTINCT player_id), 2) AS fraction
+                        FROM Parted;
 
 
 ### Sorting and Group
