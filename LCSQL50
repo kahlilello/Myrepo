@@ -393,6 +393,9 @@
 
 ### Sorting and Group
 
+    # 2356 Sorting and Grouping - Easy
+    
+
     # 1045 Customers Who Bought All products - Medium
         SELECT customer_id
         FROM Customer
