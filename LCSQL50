@@ -393,7 +393,7 @@
 
 ### Sorting and Group
 
-    # 2356 Number of Unique Subjects Taught by Each Teacher - Easy
+    # 2356 Number of Unique Subjects Taught by Each Teacher - Easy (80%)
 
         SELECT teacher_id, COUNT(DISTINCT subject_id) AS cnt
             FROM Teacher
