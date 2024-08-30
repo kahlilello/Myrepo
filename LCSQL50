@@ -1,4 +1,4 @@
-### Select 
+    ### Select 
     # 1757 Recyclable and Low Fat Products - Easy
         SELECT product_id
             FROM Products
@@ -399,7 +399,7 @@
             FROM Teacher
             GROUP BY teacher_id
 
-    # 1141 User Activity for the Past 30 Days I - Easy
+    # 1141 User Activity for the Past 30 Days I - Easy (52%)
         SELECT activity_date AS day, COUNT(DISTINCT user_id) AS active_users
             FROM Activity
                 WHERE 
