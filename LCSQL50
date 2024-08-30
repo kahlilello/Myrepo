@@ -406,7 +406,7 @@
                 activity_date BETWEEN '2019-07-27' - INTERVAL 29 DAY AND '2019-07-27'
                 GROUP BY activity_date
 
-    # 1070 Product Sales Analysis III - Easy
+    # 1070 Product Sales Analysis III - Easy (98.64%)
     SELECT product_id, year AS first_year
             , quantity, price
         
