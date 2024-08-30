@@ -398,6 +398,8 @@
         SELECT teacher_id, COUNT(DISTINCT subject_id) AS cnt
             FROM Teacher
             GROUP BY teacher_id
+
+    # 1141 User Activity for the Past 30 Days I
     
 
     # 1045 Customers Who Bought All products - Medium
