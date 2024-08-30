@@ -405,6 +405,20 @@
                 WHERE 
                 activity_date BETWEEN '2019-07-27' - INTERVAL 29 DAY AND '2019-07-27'
                 GROUP BY activity_date
+
+    # 1070 Product Sales Analysis III - Easy
+    SELECT product_id, year AS first_year
+            , quantity, price
+        
+        FROM Sales 
+        WHERE (product_id, year) IN
+        (
+        SELECT p.product_id, MIN(s.year) AS fyear
+            FROM Sales AS s
+            JOIN Product AS p
+                USING(product_id)
+                GROUP BY p.product_id
+        )
     
 
     # 1045 Customers Who Bought All products - Medium
