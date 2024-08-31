@@ -416,6 +416,12 @@
             HAVING COUNT(student) >= 5
         ) AS cnt
 
+                # 596 Classes More than 5 Students - Easy (17%) - Still a little too slow
+                    SELECT class
+                        FROM 
+                        COURSES
+                        GROUP BY class
+                        HAVING COUNT(class) >= 5
 
     # 1045 Customers Who Bought All products - Medium
         SELECT customer_id
