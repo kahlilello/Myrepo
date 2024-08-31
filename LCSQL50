@@ -406,9 +406,16 @@
                 activity_date BETWEEN '2019-07-27' - INTERVAL 29 DAY AND '2019-07-27'
                 GROUP BY activity_date
 
- 
+    # 596 Classes More than 5 Students - Easy (26.43%)
+        SELECT class
+        FROM 
+        (
+        SELECT class, COUNT(student) AS cnt
+            FROM Courses
+            GROUP BY class
+            HAVING COUNT(student) >= 5
+        ) AS cnt
 
-    # 596 
 
     # 1045 Customers Who Bought All products - Medium
         SELECT customer_id
