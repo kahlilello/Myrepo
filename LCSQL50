@@ -430,6 +430,14 @@
                 ORDER BY user_id ASC
 
     # 619 Biggest Single Number - Easy (85%)
+       SELECT MAX(num) AS num
+            FROM 
+                (SELECT num 
+                FROM MyNumbers 
+                GROUP BY num
+                HAVING COUNT(*) = 1)
+                AS singles
+
 
     # 1070 Product Sales Analysis III - Medium
         SELECT product_id, year AS first_year,
