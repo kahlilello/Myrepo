@@ -429,7 +429,7 @@
                 GROUP BY user_id
                 ORDER BY user_id ASC
 
-    # 619 Biggest Single Number
+    # 619 Biggest Single Number - Easy (85%)
 
     # 1070 Product Sales Analysis III - Medium
         SELECT product_id, year AS first_year,
