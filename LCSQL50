@@ -423,7 +423,8 @@
                         GROUP BY class
                         HAVING COUNT(class) >= 5
 
-    # 1729 Find Followers Count
+    # 1729 Find Followers Count - Easy
+
 
 
     # 1070 Product Sales Analysis III - Medium
