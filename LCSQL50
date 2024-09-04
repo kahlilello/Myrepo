@@ -502,7 +502,25 @@
             ON m.employee_id = e.reports_to
         GROUP BY m.employee_id
         ORDER BY m.employee_id
-    
+
+                # 1731 The Number of Employees Which Report to Each Employee - Easy II (96%)
+                    SELECT 
+                        e1.employee_id,
+                        e1.name,
+                        e2.reports_count,
+                        e2.average_age
+                        FROM Employees AS e1
+                        JOIN
+                        (SELECT 
+                            reports_to,
+                            COUNT(reports_to) AS reports_count,
+                            ROUND(AVG(age), 0) AS average_age
+                            FROM Employees
+                            GROUP BY reports_to
+                        ) AS e2
+                        ON e1.employee_id = e2.reports_to
+                        ORDER BY e1.employee_id
+                        
     # 1789 Primary Department for Each Employee - Easy
     WITH cnt AS
     (SELECT employee_id, COUNT(DISTINCT department_id) AS cnt
