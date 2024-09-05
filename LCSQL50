@@ -532,7 +532,28 @@
         JOIN Employee AS e 
             ON e.employee_id = c.employee_id
         WHERE cnt = 1 OR primary_flag = 'Y'
-    
+
+                    # 1789 Primary Department for Each Employee - Easy II (31%)        
+                        SELECT *
+                        FROM
+                        (
+                        SELECT e1.employee_id,
+                            CASE WHEN 
+                                primary_flag = 'Y' THEN department_id
+                                WHEN (SELECT COUNT(e2.employee_id)
+                                        FROM Employee AS e2
+                                        
+                                        
+                                        WHERE e1.employee_id = e2.employee_id
+                                        GROUP BY e2.employee_id
+                                        ) = 1
+                                    THEN department_id
+                                ELSE NULL
+                                END AS department_id
+                            FROM Employee AS e1
+                        ) AS e3
+                        WHERE department_id IS NOT NULL  
+
     # 610 Triangle Judgement - Easy
     SELECT *,
         CASE WHEN
