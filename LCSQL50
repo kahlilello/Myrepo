@@ -564,6 +564,15 @@
         END AS triangle
         FROM Triangle
 
+                # 610 Triangle Judgement - Easy II (99%) 
+                    SELECT x, y, z,
+                        CASE WHEN 
+                            x + y > z AND x + z > y AND z + y > x
+                                THEN 'Yes'
+                            ELSE 'No'
+                            END AS triangle
+                        FROM triangle
+
     # 180 Consecutive Numbers - Medium
         SELECT DISTINCT l1.num AS ConsecutiveNums
             FROM Logs AS l1
