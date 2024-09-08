@@ -601,6 +601,22 @@
                                         L2.num = L3.num)
 
     # 1164 Product Price at a Given Date - (83.91%)
+        SELECT p2.product_id, IFNULL(p1.new_price, 10) AS price
+            FROM Products AS p1
+            RIGHT JOIN(
+            SELECT DISTINCT p3.product_id, p4.date 
+                FROM Products AS p3
+                LEFT JOIN(
+                    SELECT product_id, MAX(change_date) AS date
+                    FROM Products
+                    WHERE change_date <= '2019-08-16'
+                    GROUP BY product_id
+                ) AS p4
+                USING(product_id)
+        
+            ) AS p2
+            ON p1.product_id = p2.product_id
+                AND p1.change_date = p2.date
 
     # 1907 Count Salary Categories - Medium
         WITH categories AS
