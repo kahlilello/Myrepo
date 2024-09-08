@@ -600,6 +600,8 @@
                                         (L1.num = L2.num AND
                                         L2.num = L3.num)
 
+    # 1164 Product Price at a Given Date 
+
     # 1907 Count Salary Categories - Medium
         WITH categories AS
         (
