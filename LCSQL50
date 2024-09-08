@@ -588,6 +588,8 @@
                 ON l2.num = l3.num
                     AND l2.id = l3.id - 1
 
+                # 180 - Cosecutive Numbers - Medium
+
     # 1907 Count Salary Categories - Medium
         WITH categories AS
         (
