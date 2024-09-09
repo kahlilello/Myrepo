@@ -618,6 +618,8 @@
             ON p1.product_id = p2.product_id
                 AND p1.change_date = p2.date
 
+    # Last Person to Fit in the Bus - (56%)
+
     # 1907 Count Salary Categories - Medium
         WITH categories AS
         (
