@@ -667,7 +667,9 @@
             COALESCE(COUNT(categorized),0) AS accounts_count
             FROM totalCat
             GROUP BY category
-    
+
+                # 1907 Count Salary Categories - Medium II (83%)
+
 ### Subqueries 
     
     # Employees Whose Managers Left the Company - Easy
