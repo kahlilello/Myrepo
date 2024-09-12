@@ -695,6 +695,13 @@
         ORDER BY employee_id
 
             # 1978 Employees Whose Managers Left the Company - Easy (81.89%)
+            SELECT employee_id 
+                FROM Employees
+                WHERE salary < 30000
+                    AND manager_id NOT IN
+                        (SELECT employee_id
+                        FROM Employees)
+                ORDER BY employee_id
     
     # 626 Exchange Seats - Medium
     SELECT 
