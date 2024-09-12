@@ -717,6 +717,8 @@
     FROM Seat
     ORDER BY id
 
+            # 626 Exchange Seats - Medium II (90%)
+
 
     # 1341 Movie Rating - Medium
     (
