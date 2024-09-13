@@ -758,6 +758,37 @@
     )
 
                 # 1341 Movie Rating - Medium II (74.67%)
+                (
+                SELECT name AS results
+                FROM Users As u
+                JOIN 
+                (
+                SELECT user_id, COUNT(*) AS cnt
+                    , RANK() OVER(ORDER BY COUNT(*) DESC) AS ranking
+                    FROM MovieRating
+                    GROUP BY user_id
+                ) AS m
+                USING(user_id)
+                WHERE m.ranking = 1
+                ORDER BY name
+                LIMIT 1
+                )
+                UNION ALL
+                (
+                SELECT title
+                    FROM Movies AS m
+                    JOIN
+                        (SELECT movie_id, AVG(rating) AS rate,
+                            RANK() OVER (ORDER BY AVG(rating) DESC) AS ranking
+                        FROM MovieRating
+                        WHERE created_at LIKE '2020-02%'
+                        GROUP BY movie_id
+                        ) AS r
+                    USING(movie_id)
+                    WHERE ranking = 1
+                    ORDER BY title
+                    LIMIT 1
+                )
 
     # Friend Requests II: Who has the most Friends - Medium
     WITH ids AS
