@@ -790,6 +790,8 @@
                     LIMIT 1
                 )
 
+    # 1321 Restaurant Growth - Medium
+
     # Friend Requests II: Who has the most Friends - Medium
     WITH ids AS
     (
