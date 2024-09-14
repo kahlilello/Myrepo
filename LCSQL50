@@ -790,7 +790,9 @@
                     LIMIT 1
                 )
 
-    # 1321 Restaurant Growth - Medium
+    # 1321 Restaurant Growth - Medium (63.84%)
+    
+
 
     # Friend Requests II: Who has the most Friends - Medium
     WITH ids AS
