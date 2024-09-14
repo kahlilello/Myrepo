@@ -791,7 +791,24 @@
                 )
 
     # 1321 Restaurant Growth - Medium (63.84%)
-    
+    SELECT c1.visited_on
+        , (SELECT SUM(amount) 
+            FROM Customer AS c2
+                WHERE c2.visited_on
+                    BETWEEN DATE_ADD(c1.visited_on, INTERVAL -6 day)
+                        AND c1.visited_on)
+            AS amount
+        , (SELECT ROUND(SUM(amount)/7, 2)
+            FROM Customer AS c2
+                WHERE c2.visited_on
+                    BETWEEN DATE_ADD(c1.visited_on, INTERVAL -6 DAY)
+                        AND c1.visited_on)
+            AS average_amount
+        FROM Customer AS c1
+        WHERE c1.visited_on >= DATE_ADD(
+                (SELECT MIN(c3.visited_on)
+                    FROM Customer AS c3), INTERVAL 6 DAY)
+        GROUP BY c1.visited_on
 
 
     # Friend Requests II: Who has the most Friends - Medium
