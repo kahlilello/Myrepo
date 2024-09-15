@@ -842,6 +842,17 @@
         LIMIT 1
 
                 # 602 Friend Request II: Who has the Most Friends - Medium II (53.70%)
+                SELECT id, COUNT(*) AS num
+
+FROM
+(
+SELECT requester_id AS id FROM RequestAccepted 
+UNION ALL
+SELECT accepter_id AS id FROM RequestAccepted
+) AS unioned
+GROUP BY id
+ORDER BY num DESC
+LIMIT 1
 
 
     # 585 Investments in 2016 - Medium
