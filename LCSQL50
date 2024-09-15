@@ -811,7 +811,7 @@
         GROUP BY c1.visited_on
 
 
-    # Friend Requests II: Who has the most Friends - Medium
+    # 602 Friend Requests II: Who has the most Friends - Medium
     WITH ids AS
     (
     SELECT DISTINCT requester_id AS id
