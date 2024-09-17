@@ -885,6 +885,7 @@
                     GROUP BY tiv_2015
                     HAVING COUNT(*) > 1)
 
+    # 185 Department Top Three Salaries - Hard (65.17%)
 
 ### Advanced String Functions/REGEX/Clause
     
