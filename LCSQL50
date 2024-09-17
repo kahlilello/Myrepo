@@ -886,20 +886,19 @@
                     HAVING COUNT(*) > 1)
 
     # 185 Department Top Three Salaries - Hard (65.17%)
-WITH rankings AS(
-SELECT d.name AS Department
-    , e.name AS Employee
-    , e.salary AS Salary
-    , DENSE_RANK() OVER(PARTITION BY d.name ORDER BY salary DESC) AS ranking
-    FROM Employee AS e
-    JOIN Department AS d
-        ON e.departmentID = d.id
-)
-
-SELECT Department, Employee, Salary
-    FROM rankings
-    WHERE ranking < 4
-
+        WITH rankings AS(
+        SELECT d.name AS Department
+            , e.name AS Employee
+            , e.salary AS Salary
+            , DENSE_RANK() OVER(PARTITION BY d.name ORDER BY salary DESC) AS ranking
+            FROM Employee AS e
+            JOIN Department AS d
+                ON e.departmentID = d.id
+        )
+        
+        SELECT Department, Employee, Salary
+            FROM rankings
+            WHERE ranking < 4
 
 ### Advanced String Functions/REGEX/Clause
     
