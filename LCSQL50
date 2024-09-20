@@ -952,6 +952,8 @@
             AND MONTH(o.order_date) = 2 
         GROUP BY product_name
         HAVING SUM(unit) >=100
+
+                # 1327 List the Products Ordered in a Period - Easy II (45%)
     
     # 1517 Find users With Valid Emails - Easy
         SELECT * 
