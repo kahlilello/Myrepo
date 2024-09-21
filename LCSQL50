@@ -941,6 +941,13 @@
         GROUP_CONCAT(DISTINCT product ORDER BY product SEPARATOR ',') AS products
         FROM Activities
         GROUP BY sell_date
+
+                # 1484 Group Products by the Date - East II (81.15%)
+                SELECT sell_date
+                    , COUNT(DISTINCT product) AS num_sold
+                    , GROUP_CONCAT(DISTINCT product ORDER BY product SEPARATOR ',') AS products
+                    FROM Activities
+                        GROUP BY sell_date
     
     # 1327 List the Products Ordered in a Period - Easy
     
