@@ -974,6 +974,11 @@
         FROM Users
         WHERE mail REGEXP '^[A-Za-z][A-Za-z0-9_\.\-]*@leetcode(\\?com)?\\.com$'
 
+            # 1517 Find Users With Valid Emails - Easy II (31%) 
+                SELECT *
+                    FROM Users
+                    WHERE mail REGEXP '^[a-z][a-z0-9-_.]*@leetcode\\.com$';
+
     # 1164 Product Price at a Given Date
         WITH dates AS
             (
