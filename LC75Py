@@ -1,6 +1,8 @@
 
 ### Array/String
 
+        # 1768 Merge Strings Alternately - Easy 
+
         # 345 Reverse Vowels of a String - Easy
                 vowels = 'aeiouAEIOU'
                 sList = list(s)
