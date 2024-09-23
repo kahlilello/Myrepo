@@ -1,7 +1,19 @@
 
 ### Array/String
 
-        # 1768 Merge Strings Alternately - Easy 
+        # 1768 Merge Strings Alternately - Easy (72.36%)
+                merged = ''
+                minLength = min(len(word1), len(word2))
+        
+                for i in range(minLength):
+                    merged += word1[i] + word2[i]
+                
+                if len(word1) > len(word2):
+                    merged += word1[minLength::]
+                elif len(word2) > len(word1):
+                    merged += word2[minLength::]
+
+                return(merged)
 
         # 345 Reverse Vowels of a String - Easy
                 vowels = 'aeiouAEIOU'
