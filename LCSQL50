@@ -935,6 +935,8 @@
         JOIN Person AS p2 
         ON p1.email = p2.email
         WHERE p1.id > p2.id
+
+                # 196 Delete Duplicate Emails - Easy II (98.85%)
     
     # 1484 Group Products by the Date - Easy
     SELECT sell_date, COUNT(DISTINCT product) AS num_sold,
