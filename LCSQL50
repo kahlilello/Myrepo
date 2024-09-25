@@ -1055,6 +1055,15 @@
                 ON e.ranking = t.ranking
 
                 # 176 Second Highest Salary - Medium II (85%)
-                    
+                    SELECT (
+                    SELECT salary
+                    FROM
+                    (
+                    SELECT DISTINCT salary,
+                        DENSE_RANK() OVER(ORDER BY salary DESC) AS ranking
+                        FROM Employee AS e1
+                    ) AS ranked
+                    WHERE ranking = 2  
+                    ) AS SecondHighestSalary
 
 
