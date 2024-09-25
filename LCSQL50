@@ -1054,4 +1054,7 @@
             RIGHT JOIN two AS t
                 ON e.ranking = t.ranking
 
+                # 176 Second Highest Salary - Medium II (85%)
+                    
+
 
